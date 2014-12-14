@@ -10,8 +10,6 @@ import Foundation
 
 class EnvStatusFetcher: Fetcher
 {
-    let env_status_url = "http://demo5972920.mockable.io/status"
-    
     private var _data: Response?
     var data: Response?
     {
@@ -38,11 +36,11 @@ class EnvStatusFetcher: Fetcher
     
     private var settingsFetcher: SettingsFetcher
     
-    init(callBack: (() -> Void), settingsFetcher: SettingsFetcher)
+    init(callBack: (() -> Void), fUrl: NSString, settingsFetcher: SettingsFetcher)
     {
         _lastSuccess = NSDate(timeIntervalSince1970: 0)
         self.settingsFetcher = settingsFetcher
-        super.init(callBack: callBack, fetchUrl: env_status_url);
+        super.init(callBack: callBack, fetchUrl: fUrl);
         self.updateData()
     }
     
@@ -65,6 +63,7 @@ class EnvStatusFetcher: Fetcher
         if(nil != jsonResult)
         {
             _lastSuccess = NSDate()
+            _errorMsg = nil
             self._data = self.parseJson(jsonResult)
         }
         super.updateCallBack()

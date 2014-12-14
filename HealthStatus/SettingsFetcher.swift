@@ -10,53 +10,24 @@ import Foundation
 
 @objc class SettingsFetcher: Fetcher
 {
-    let env_settings_url = "http://demo5972920.mockable.io/settings"
-    let settings_storage = "._env_health_check.plist"
+    let settings_storage = "._service_health_preferences.plist"
     
-    var settings: Settings
+    var settings: Settings = Settings()
     
-    init(callBack: (() -> Void))
+    init(callBack: (() -> Void), fUrl: NSString)
     {
-        settings = Settings()
-        super.init(callBack: callBack, fetchUrl: env_settings_url);
-    }
-    
-    func readPreferences() -> Settings
-    {
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray
-        let documentsDirectory = paths.objectAtIndex(0) as NSString
-        let path = documentsDirectory.stringByAppendingPathComponent(settings_storage)
-        
-        let fileManager = NSFileManager.defaultManager()
-
-        var localSettings = Settings()
-        if(fileManager.fileExistsAtPath(path))
-        {
-            if let rawData = NSData(contentsOfFile: path)
-            {
-                // Try loading the file, if it is corrupt, ignore the exceptions and start from scratch
-                SwiftTryCatch.try({ () -> Void in
-                    var data: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(rawData);
-                    localSettings = data as Settings
-                }, catch: nil , finally: nil)
-            }
-        }
-        return localSettings
+        super.init(callBack: callBack, fetchUrl: fUrl);
+        settings = Utils.readFromFile(self.settings_storage)
     }
     
     func writePreferences()
     {
-        // find the save directory our app has permission to use, and save the serialized version of self.scores - the HighScores array.
-        let data = NSKeyedArchiver.archivedDataWithRootObject(self.settings);
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray;
-        let documentsDirectory = paths.objectAtIndex(0) as NSString;
-        let path = documentsDirectory.stringByAppendingPathComponent(settings_storage);
-        data.writeToFile(path, atomically: true);
+        Utils.writeToFile(settings, fileName: settings_storage)
     }
     
     func syncPreferences()
     {
-        var localSettings = readPreferences()
+        var localSettings = Utils.readFromFile(self.settings_storage) as Settings
         
         if(self.settings.providers.count == 0)
         {

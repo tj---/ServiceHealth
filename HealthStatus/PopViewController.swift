@@ -11,12 +11,13 @@ import Cocoa
 
 class PopViewController: NSViewController
 {
+    let config_storage = "._service_health_config.plist"
     let oldest_date = NSDate(timeIntervalSince1970: 5)
     let env_status_heading = "  Environment Status"
     let settings_heading = "  Settings"
     
-    let y_max: Int = 2000
-    let x_max: Int = 500
+    let y_max: Int = 5000
+    let x_max: Int = 595
     
     @IBOutlet weak var settings: NSButton!
     @IBOutlet var mainScreen: NSView!
@@ -31,7 +32,8 @@ class PopViewController: NSViewController
     var settFetcher: SettingsFetcher!
     var dateFormatter: NSDateFormatter = NSDateFormatter()
     
-    var timer = NSTimer()
+    var config: Config = Config()
+    var updateTimer = NSTimer()
     
     override init?(nibName: String?, bundle: NSBundle?)
     {
@@ -46,11 +48,16 @@ class PopViewController: NSViewController
     override func awakeFromNib()
     {
         setupContentView()
-        settFetcher = SettingsFetcher(self.paintScreen)
-        envFetcher = EnvStatusFetcher(callBack: self.paintScreen,settingsFetcher: settFetcher)
+        // Read the config file, overwrite it so that it is no more corrupt even if it was
+        config = Utils.readFromFile(config_storage) as Config
+        println("The url is \(config.statsUrl)")
+        Utils.writeToFile(config, fileName: config_storage)
+        
+        settFetcher = SettingsFetcher(callBack: self.paintScreen, fUrl: config.settingsUrl)
+        envFetcher = EnvStatusFetcher(callBack: self.paintScreen, fUrl: config.statsUrl, settingsFetcher: settFetcher)
         self.paintScreen()
-        timer = NSTimer.scheduledTimerWithTimeInterval(10, target:self, selector: "updatePanel", userInfo: nil, repeats: true)
-        dateFormatter.dateFormat = "dd-MMM HH:mm:ss"
+        self.startTimer()
+        dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm:ss"
     }
     func setupContentView()
     {
@@ -59,20 +66,18 @@ class PopViewController: NSViewController
         self.contentView.drawsBackground = false
         self.displayArea.documentView = contentView
         
-        self.loadingMsg = NSTextField(frame: NSRect(x: 10, y: y_max - 40, width: 100, height: 30))
+        self.loadingMsg = NSTextField(frame: NSRect(x: 0, y: y_max - 40, width: 100, height: 30))
         self.loadingMsg.stringValue = "Loading..."
         self.loadingMsg.backgroundColor = NSColor.clearColor()
         self.loadingMsg.bordered = false
-        
     }
     func updatePanel()
     {
-        println("Updating panel")
-        envFetcher.updateData()    }
+        envFetcher.updateData()
+    }
     
     @IBAction func settingsAction(sender: NSButton)
     {
-        println("Settings Action")
         settingsEnabled = !settingsEnabled
         self.paintScreen()
     }
@@ -90,6 +95,27 @@ class PopViewController: NSViewController
         // Scroll to Top Left
         var point = NSMakePoint(0, CGFloat(y_max) - CGFloat(self.displayArea.bounds.height))
         self.displayArea.contentView.scrollToPoint(point)
+    }
+    
+    // Hacky way of changing the intervals
+    private func invalidateTimer()
+    {
+        if(updateTimer.valid)
+        {
+            updateTimer.invalidate()
+        }
+    }
+    func stopTimer()
+    {
+        self.invalidateTimer()
+        var interval: NSTimeInterval = NSTimeInterval(60*60*24*100)
+        updateTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target:self, selector: "updatePanel", userInfo: nil, repeats: true)
+    }
+    func startTimer()
+    {
+        self.invalidateTimer()
+        var interval: NSTimeInterval = NSTimeInterval(config.updateInterval)
+        updateTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target:self, selector: "updatePanel", userInfo: nil, repeats: true)
     }
     
     // This might lead to memory leaks - keep a tab on this
@@ -113,12 +139,15 @@ class PopViewController: NSViewController
             var curr = y_max
             if(self.envFetcher.errorMsg != nil)
             {
-                curr = curr - 20
-                formTextView(10, y: curr, w: x_max, h: 20, text: self.envFetcher.errorMsg!)
+                curr = curr - 40
+                var errMsg: NSString = "\(self.envFetcher.errorMsg!) Next update will be attempted at : \(dateFormatter.stringFromDate(self.updateTimer.fireDate))"
+                formTextView(0, y: curr, w: x_max, h: 40, text: self.envFetcher.errorMsg!, bgColor: NSColor(red: 1.0, green: 0.9, blue: 0.9, alpha:1.0))
             }
             // Show the Last Updated ts
             curr = curr - 20
-            formTextView(0, y: curr, w: x_max, h: 20, text: "Last Updated : " + (oldest_date.compare(self.envFetcher.lastSuccess) == NSComparisonResult.OrderedDescending ? "Never :(" : dateFormatter.stringFromDate(self.envFetcher.lastSuccess)))
+            var lastUpated: NSString = (oldest_date.compare(self.envFetcher.lastSuccess) == NSComparisonResult.OrderedDescending ? "Never :(" : dateFormatter.stringFromDate(self.envFetcher.lastSuccess))
+            var updateMsg: NSString = "Last Updated at: \(lastUpated). Next Attempt at: \(dateFormatter.stringFromDate(self.updateTimer.fireDate))"
+            formTextView(0, y: curr, w: x_max, h: 20, text: updateMsg, bgColor: NSColor(red: 0.92, green: 1.0, blue: 1.0, alpha:1.0))
             // Show the Data
             
             if(nil != self.envFetcher.data && self.envFetcher.data?.services.count > 0)

@@ -10,6 +10,10 @@ import Foundation
 
 class Service: NSObject, NSCoding
 {
+    var serviceId: NSString!
+    var serviceName: NSString
+    var enabled: Bool = true
+    
     init(sName: NSString)
     {
         serviceName = sName
@@ -26,8 +30,4 @@ class Service: NSObject, NSCoding
         aCoder.encodeObject(serviceName, forKey: "serviceName")
         aCoder.encodeObject(enabled, forKey: "enabled")
     }
-    
-    var serviceId: NSString!
-    var serviceName: NSString
-    var enabled: Bool = true
 }
