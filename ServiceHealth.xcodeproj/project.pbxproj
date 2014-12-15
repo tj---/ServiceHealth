@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B0341961A3F3CD300667A32 /* AvailabilityUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0341951A3F3CD300667A32 /* AvailabilityUtil.swift */; };
+		8B3878B81A3F68250031ADDE /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8B3878B71A3F68250031ADDE /* Credits.rtf */; };
+		8B3878BA1A3F6BCA0031ADDE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B3878B91A3F6BCA0031ADDE /* Localizable.strings */; };
+		8B3878BD1A3F6D310031ADDE /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3878BC1A3F6D310031ADDE /* Resources.swift */; };
 		8B3B4C691A3E28EB00F3BB84 /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3B4C681A3E28EB00F3BB84 /* ViewHelper.swift */; };
 		8B53E5D21A28D296001C471A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B53E5D11A28D296001C471A /* AppDelegate.swift */; };
 		8B53E5D41A28D296001C471A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B53E5D31A28D296001C471A /* Images.xcassets */; };
@@ -34,6 +38,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B0341951A3F3CD300667A32 /* AvailabilityUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvailabilityUtil.swift; sourceTree = "<group>"; };
+		8B3878B71A3F68250031ADDE /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		8B3878B91A3F6BCA0031ADDE /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		8B3878BC1A3F6D310031ADDE /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		8B3B4C681A3E28EB00F3BB84 /* ViewHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
 		8B53E5CC1A28D296001C471A /* ServiceHealth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B53E5D01A28D296001C471A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,9 +134,12 @@
 				8B3B4C671A3E289300F3BB84 /* DataObjects */,
 				8B33FE341A3A26E20097B6B3 /* images */,
 				8B53E5D11A28D296001C471A /* AppDelegate.swift */,
+				8B0341951A3F3CD300667A32 /* AvailabilityUtil.swift */,
 				8B53E5F01A296A1F001C471A /* StatusView.swift */,
 				8B53E5EC1A29687C001C471A /* PopViewController.xib */,
 				8B53E5EE1A2968AC001C471A /* PopViewController.swift */,
+				8B3878B91A3F6BCA0031ADDE /* Localizable.strings */,
+				8B3878BC1A3F6D310031ADDE /* Resources.swift */,
 				8B3B4C681A3E28EB00F3BB84 /* ViewHelper.swift */,
 				8B53E5D31A28D296001C471A /* Images.xcassets */,
 				8B53E5D51A28D296001C471A /* MainMenu.xib */,
@@ -145,6 +156,7 @@
 		8B53E5CF1A28D296001C471A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8B3878B71A3F68250031ADDE /* Credits.rtf */,
 				8B53E5D01A28D296001C471A /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -209,9 +221,11 @@
 			files = (
 				8BABF2801A2CD7B400812621 /* settings.png in Resources */,
 				8BABF2821A2CD95D00812621 /* pulse.png in Resources */,
+				8B3878BA1A3F6BCA0031ADDE /* Localizable.strings in Resources */,
 				8BA229171A39DB5D00A8B09C /* ic_red.png in Resources */,
 				8BA229141A39DB5D00A8B09C /* ic_pause.png in Resources */,
 				8BA229161A39DB5D00A8B09C /* ic_green.png in Resources */,
+				8B3878B81A3F68250031ADDE /* Credits.rtf in Resources */,
 				8B53E5D41A28D296001C471A /* Images.xcassets in Resources */,
 				8BA229151A39DB5D00A8B09C /* ic_yellow.png in Resources */,
 				8B53E5ED1A29687C001C471A /* PopViewController.xib in Resources */,
@@ -235,7 +249,9 @@
 				8BABF2841A2CECF500812621 /* EnvStatusFetcher.swift in Sources */,
 				8B61B9321A3DD2F90044B128 /* Config.swift in Sources */,
 				8B783CAA1A2D2D5F00E91482 /* EnvStatus.swift in Sources */,
+				8B3878BD1A3F6D310031ADDE /* Resources.swift in Sources */,
 				8BB6574A1A337CD000E2352B /* Settings.swift in Sources */,
+				8B0341961A3F3CD300667A32 /* AvailabilityUtil.swift in Sources */,
 				8B3B4C691A3E28EB00F3BB84 /* ViewHelper.swift in Sources */,
 				8B783CAE1A2D320400E91482 /* ServiceResponse.swift in Sources */,
 				8BB6574C1A337D9100E2352B /* Service.swift in Sources */,

@@ -13,8 +13,6 @@ class PopViewController: NSViewController
 {
     let config_storage = "._service_health_config.plist"
     let oldest_date = NSDate(timeIntervalSince1970: 5)
-    let env_status_heading = "  Environment Status"
-    let settings_heading = "  Settings"
     
     let y_max: Int = 5000
     let x_max: Int = 595
@@ -50,7 +48,11 @@ class PopViewController: NSViewController
         setupContentView()
         // Read the config file, overwrite it so that it is no more corrupt even if it was
         config = Utils.readFromFile(config_storage) as Config
-        println("The url is \(config.statsUrl)")
+        if(!config.launchPrefUpdated)
+        {
+            AvailabilityUtil.launchOnStartup(true)
+            config.launchPrefUpdated = true
+        }
         Utils.writeToFile(config, fileName: config_storage)
         
         settFetcher = SettingsFetcher(callBack: self.paintScreen, fUrl: config.settingsUrl)
@@ -67,7 +69,7 @@ class PopViewController: NSViewController
         self.displayArea.documentView = contentView
         
         self.loadingMsg = NSTextField(frame: NSRect(x: 0, y: y_max - 40, width: 100, height: 30))
-        self.loadingMsg.stringValue = "Loading..."
+        self.loadingMsg.stringValue = Resources.getLString(Resources.res_loading)
         self.loadingMsg.backgroundColor = NSColor.clearColor()
         self.loadingMsg.bordered = false
     }
@@ -128,7 +130,7 @@ class PopViewController: NSViewController
     }
     func formResponseScreen()
     {
-        self.heading.stringValue = env_status_heading
+        self.heading.stringValue = Resources.getLString(Resources.env_status_heading)
         if(self.envFetcher.data == nil && self.envFetcher.errorMsg == nil)
         {
             self.contentView.addSubview(loadingMsg)
@@ -193,11 +195,25 @@ class PopViewController: NSViewController
         self.contentView.addSubview(view)
         return view
     }
+    func formCheckBox(x: Int, y: Int, w: Int, h: Int, title: NSString, selector: NSString, enabled: Bool)
+    {
+        var checkBox = NSButton(frame: NSRect(x: x, y: y, width: w, height: h))
+        checkBox.setButtonType(NSButtonType.SwitchButton)
+        checkBox.title = title
+        checkBox.target = self
+        checkBox.action = Selector(selector)  // On any change in the settings
+        checkBox.state = enabled ? 1 : 0
+        self.contentView.addSubview(checkBox)
+    }
     func formSettingsPane()
     {
-        self.heading.stringValue = settings_heading
+        self.heading.stringValue = Resources.getLString(Resources.settings_heading)
         var currSettings = settFetcher.settings
-        
+
+        var curr = y_max - 20
+        formCheckBox(0, y: curr, w: x_max, h: 20, title: Resources.getLString(Resources.launch_on_startup), selector: "updateLaunchSettings:", enabled: AvailabilityUtil.isStartupLaunchEnabled())
+        curr = curr - 20
+        formTextView(0, y: curr, w: x_max, h: 20, text: Resources.getLString(Resources.sel_services_updt), bgColor: NSColor(red: 0.92, green: 1.0, blue: 1.0, alpha:1.0))
         if(currSettings.providers.isEmpty)
         {
             self.contentView.addSubview(loadingMsg)
@@ -206,15 +222,14 @@ class PopViewController: NSViewController
         {
             for index in 0...(currSettings.providers.count - 1)
             {
-                var checkBox = NSButton(frame: NSRect(x:10, y: y_max - (index + 1)*20, width: 120, height: 20))
-                checkBox.setButtonType(NSButtonType.SwitchButton)
-                checkBox.title = "\(currSettings.providers[index].serviceName)"
-                checkBox.target = self
-                checkBox.action = Selector("updateSettings:")  // On any change in the settings
-                checkBox.state = currSettings.providers[index].enabled ? 1 : 0
-                self.contentView.addSubview(checkBox)
+                formCheckBox(0, y: curr - (index + 1)*20, w: 120, h: 20, title:(currSettings.providers[index].serviceName),
+                    selector: "updateSettings:", enabled: currSettings.providers[index].enabled)
             }
         }
+    }
+    func updateLaunchSettings(sender: NSButton)
+    {
+        AvailabilityUtil.launchOnStartup(sender.state == 0 ? false : true)
     }
     // Right now, a save is attempted on each update to the checkBox, however, that should not be the case
     func updateSettings(sender: NSButton)
@@ -223,7 +238,6 @@ class PopViewController: NSViewController
         {
             if(provider.serviceName == sender.title)
             {
-                println("action received from button \(sender.title) and state \(sender.state)")
                 provider.enabled = sender.state == 0 ? false : true
             }
         }

@@ -20,6 +20,7 @@ class Config: NSObject, NSCoding
         self.updateInterval  = aDecoder.decodeObjectForKey("updateInterval") as NSInteger
         self.settingsUrl = aDecoder.decodeObjectForKey("settingsUrl") as NSString
         self.statsUrl = aDecoder.decodeObjectForKey("statsUrl") as NSString
+        self.launchPrefUpdated = aDecoder.decodeObjectForKey("launchPrefUpdated") as Bool
         super.init()
         // Don't want to have the updateInterval too little
         if(self.updateInterval < min_update_interval)
@@ -32,9 +33,11 @@ class Config: NSObject, NSCoding
         aCoder.encodeObject(updateInterval, forKey: "updateInterval")
         aCoder.encodeObject(settingsUrl, forKey: "settingsUrl")
         aCoder.encodeObject(statsUrl, forKey: "statsUrl")
+        aCoder.encodeObject(launchPrefUpdated, forKey: "launchPrefUpdated")
     }
     
     var updateInterval: NSInteger = 3 // Update interval in # of seconds
     var settingsUrl: NSString = "http://demo5972920.mockable.io/settings"
     var statsUrl: NSString = "http://demo5972920.mockable.io/status"
+    var launchPrefUpdated: Bool = false
 }
