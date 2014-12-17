@@ -40,14 +40,11 @@ class StatusView : NSView, NSMenuDelegate
     {
         if(popover.shown)
         {
-            // Pause the timer
-            popController.stopTimer()
             popover.close()
         }
         else
         {
             popover.showRelativeToRect(self.frame, ofView: self, preferredEdge: NSMinYEdge)
-            popController.startTimer()
         }
     }
 }

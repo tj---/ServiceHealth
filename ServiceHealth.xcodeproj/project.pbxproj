@@ -11,7 +11,9 @@
 		8B3878B81A3F68250031ADDE /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8B3878B71A3F68250031ADDE /* Credits.rtf */; };
 		8B3878BA1A3F6BCA0031ADDE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B3878B91A3F6BCA0031ADDE /* Localizable.strings */; };
 		8B3878BD1A3F6D310031ADDE /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3878BC1A3F6D310031ADDE /* Resources.swift */; };
-		8B3B4C691A3E28EB00F3BB84 /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3B4C681A3E28EB00F3BB84 /* ViewHelper.swift */; };
+		8B3878BF1A3F839E0031ADDE /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3878BE1A3F839E0031ADDE /* ViewHelper.swift */; };
+		8B3878C11A40BFE70031ADDE /* SvcStatusViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3878C01A40BFE70031ADDE /* SvcStatusViewHelper.swift */; };
+		8B3B4C691A3E28EB00F3BB84 /* SettingsViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3B4C681A3E28EB00F3BB84 /* SettingsViewHelper.swift */; };
 		8B53E5D21A28D296001C471A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B53E5D11A28D296001C471A /* AppDelegate.swift */; };
 		8B53E5D41A28D296001C471A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B53E5D31A28D296001C471A /* Images.xcassets */; };
 		8B53E5D71A28D296001C471A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B53E5D51A28D296001C471A /* MainMenu.xib */; };
@@ -42,7 +44,9 @@
 		8B3878B71A3F68250031ADDE /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8B3878B91A3F6BCA0031ADDE /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		8B3878BC1A3F6D310031ADDE /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
-		8B3B4C681A3E28EB00F3BB84 /* ViewHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
+		8B3878BE1A3F839E0031ADDE /* ViewHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
+		8B3878C01A40BFE70031ADDE /* SvcStatusViewHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SvcStatusViewHelper.swift; sourceTree = "<group>"; };
+		8B3B4C681A3E28EB00F3BB84 /* SettingsViewHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewHelper.swift; sourceTree = "<group>"; };
 		8B53E5CC1A28D296001C471A /* ServiceHealth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B53E5D01A28D296001C471A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B53E5D11A28D296001C471A /* AppDelegate.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -140,7 +144,9 @@
 				8B53E5EE1A2968AC001C471A /* PopViewController.swift */,
 				8B3878B91A3F6BCA0031ADDE /* Localizable.strings */,
 				8B3878BC1A3F6D310031ADDE /* Resources.swift */,
-				8B3B4C681A3E28EB00F3BB84 /* ViewHelper.swift */,
+				8B3B4C681A3E28EB00F3BB84 /* SettingsViewHelper.swift */,
+				8B3878C01A40BFE70031ADDE /* SvcStatusViewHelper.swift */,
+				8B3878BE1A3F839E0031ADDE /* ViewHelper.swift */,
 				8B53E5D31A28D296001C471A /* Images.xcassets */,
 				8B53E5D51A28D296001C471A /* MainMenu.xib */,
 				8B53E5CF1A28D296001C471A /* Supporting Files */,
@@ -250,9 +256,11 @@
 				8B61B9321A3DD2F90044B128 /* Config.swift in Sources */,
 				8B783CAA1A2D2D5F00E91482 /* EnvStatus.swift in Sources */,
 				8B3878BD1A3F6D310031ADDE /* Resources.swift in Sources */,
+				8B3878BF1A3F839E0031ADDE /* ViewHelper.swift in Sources */,
 				8BB6574A1A337CD000E2352B /* Settings.swift in Sources */,
 				8B0341961A3F3CD300667A32 /* AvailabilityUtil.swift in Sources */,
-				8B3B4C691A3E28EB00F3BB84 /* ViewHelper.swift in Sources */,
+				8B3B4C691A3E28EB00F3BB84 /* SettingsViewHelper.swift in Sources */,
+				8B3878C11A40BFE70031ADDE /* SvcStatusViewHelper.swift in Sources */,
 				8B783CAE1A2D320400E91482 /* ServiceResponse.swift in Sources */,
 				8BB6574C1A337D9100E2352B /* Service.swift in Sources */,
 				8B53E5D21A28D296001C471A /* AppDelegate.swift in Sources */,
