@@ -25,7 +25,6 @@ class PopViewController: NSViewController
     var settFetcher: SettingsFetcher!
     
     var config: Config = Config()
-    var updateTimer = NSTimer()
     
     var settingsViewHelper: SettingsViewHelper!
     var svcStatusViewHelper: SvcStatusViewHelper!
@@ -55,12 +54,8 @@ class PopViewController: NSViewController
         settFetcher = SettingsFetcher(callBack: self.paintScreen, fUrl: config.settingsUrl)
         envFetcher = EnvStatusFetcher(callBack: self.paintScreen, fUrl: config.statsUrl, settingsFetcher: settFetcher)
         
-        var interval: NSTimeInterval = NSTimeInterval(3)
-        updateTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target:self, selector: "updatePanel", userInfo: nil, repeats: true)
-        
         settingsViewHelper = SettingsViewHelper(cView: self.contentView, headingView: heading, settFetcher: settFetcher)
-        svcStatusViewHelper = SvcStatusViewHelper(cView: self.contentView, headingView: heading, envFetcher: envFetcher, uTimer: updateTimer)
-        
+        svcStatusViewHelper = SvcStatusViewHelper(cView: self.contentView, headingView: heading, envFetcher: envFetcher, interval: config.updateInterval)
         
         self.paintScreen()
     }
@@ -70,10 +65,6 @@ class PopViewController: NSViewController
         self.contentView.backgroundColor = NSColor.clearColor()
         self.contentView.drawsBackground = false
         self.displayArea.documentView = contentView
-    }
-    func updatePanel()
-    {
-        envFetcher.updateData()
     }
     
     @IBAction func settingsAction(sender: NSButton)

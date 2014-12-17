@@ -28,12 +28,13 @@ class ViewHelper
             self.contentView.subviews = []
         }
     }
-    func formTextView(x: Int, y: Int, w: Int, h: Int, text: NSString, bgColor: NSColor = NSColor.clearColor()) -> NSView
+    func formTextView(x: Int, y: Int, w: Int, h: Int, text: NSString, bgColor: NSColor = NSColor.clearColor(), fnt: NSFont = NSFont(name: "Verdana", size: 12)!) -> NSView
     {
         var view: NSTextField = NSTextField(frame: NSRect(x: x, y: y, width: w, height: h))
         view.stringValue = text
         view.backgroundColor = bgColor
         view.bordered = false
+        view.font = fnt
         self.contentView.addSubview(view)
         return view
     }

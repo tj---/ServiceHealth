@@ -31,7 +31,7 @@ class SettingsViewHelper: ViewHelper
         if(currSettings.providers.isEmpty)
         {
             // 3.a Set the Loading message
-            formTextView(0, y: Resources.y_max - 2*Resources.std_height, w: Resources.x_max, h: Resources.std_height, text: Resources.getLString(Resources.res_loading))
+            formTextView(0, y: Resources.y_max - Resources.std_height, w: Resources.x_max, h: Resources.std_height, text: Resources.getLString(Resources.res_loading))
         }
         else
         {
